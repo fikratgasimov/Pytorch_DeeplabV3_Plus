@@ -1,0 +1,38 @@
+0 0 0,0,void,Void
+70 130 180,1,s_w_d,Dividing
+220 20 60,2,s_y_d,Middle Parallel line
+128 0 128,3,ds_w_dn,Right line Parking
+255 0 0,4,ds_y_dn,Border Line
+0 0 60,5,sb_w_do,Continuous Line
+0 60 100,6,sb_y_do,Right Turn
+0 0 142,7,b_w_g,Guiding
+119 11 32,8,b_y_g,Left Dashline
+244 35 232,9,db_w_g,Cycle line
+0 0 160,10,db_y_g,Thick guide Line
+153 153 153,11,db_w_s,Stopping
+220 220 0,12,s_w_s,Convergence Line
+250 170 30,13,ds_w_s,Safety line
+102 102 156,14,s_w_c,Left-Right Dash Separated Line
+128 0 0,15,s_y_c,Chevron
+128 64 128,16,s_w_p,Fork Arrow
+238 232 170,17,s_n_p,Turn-Left Line
+190 153 153,18,c_wy_z,ZebraCrossing
+0 0 230,19,a_w_u,DoubleTurn
+128 128 0,20,a_w_t,Straight Arrow
+128 78 160,21,a_w_tl,Continuous Line
+150 100 100,22,a_w_tr,Circle Turn
+255 165 0,23,a_w_tlr,Yield Sign without Words
+180 165 180,24,a_w_l,TurnLeft
+107 142 35,25,a_w_r,Three Merged Lines
+201 255 229,26,a_w_lr,Double Turn
+0 191 255,27,a_n_lu,Straight Line
+51 255 51,28,a_w_tu,Right Arrow
+250 128 114,29,a_w_m,Pedestrian stand Line
+127 255 0,30,a_y_t,Turn Right
+255 128 0,31,b_n_sr,Reduction
+0 255 255,32,d_wy_za,Attention
+178 132 190,33,r_wy_np,No Parking
+128 128 64,34,vom_wy_n,Turn Allowance Line
+102 0 204,35,om_n_n,Parking
+0 153 153,255,noise,Curve Sign
+255 255 255,255,ignored,Ignored
