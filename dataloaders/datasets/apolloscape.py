@@ -39,9 +39,6 @@ class ApolloScapeSegmentation(Dataset):
 
             self._cat_dir = os.path.join(self._root_dir, 'Ground_Truth')
 
-
-            self._cat_dir = os.path.join(self._root_dir, 'Ground_Truth' )
-
             
             # if split == train 
             if isinstance(split, str):
