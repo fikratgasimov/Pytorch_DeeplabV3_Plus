@@ -2,15 +2,17 @@ import torch
 import torch.nn as nn
 
 
-class CrossEntropyLoss(object):
+class SegmentationLosses(object):
     """
     Cross entropy with instance-wise weights. Leave `aggregate` to None to obtain a loss
     vector of shape (batch_size,).
     """
-    def __init__(self, aggregate='mean'):
-        super(CrossEntropyLoss, self).__init__()
+    def __init__(self, weight = None, aggregate='mean', cuda = False):
+        super(SegmentationLosses, self).__init__()
         assert aggregate in ['sum', 'mean', None]
         self.aggregate = aggregate
+        self.cuda = cuda
+        self.weight = weight
 
     def build_loss(self, mode='ce'):
         """Choices: ['ce' or 'focal']"""
@@ -45,11 +47,11 @@ class CrossEntropyLoss(object):
         # in numpy, this would be logits[:, target].
         batch_size, num_classes = logits.size()
         if target.is_cuda:
-            device = target.data.get_device()
+            criterion = target.data.get_criterion()
             one_hot_mask = torch.autograd.Variable(torch.arange(0, num_classes)
                                                    .long()
                                                    .repeat(batch_size, 1)
-                                                   .cuda(device)
+                                                   .cuda(criterion)
                                                    .eq(target.data.repeat(num_classes, 1).t()))
         else:
             one_hot_mask = torch.autograd.Variable(torch.arange(0, num_classes)
@@ -75,9 +77,8 @@ class CrossEntropyLoss(object):
 
         return loss
 
-
 if __name__ == "__main__":
-    loss = CrossEntropyLoss(cuda=True)
+    loss = SegmentationLosses(cuda=True)
     a = torch.rand(1, 3, 7, 7).cuda()
     b = torch.rand(1, 7, 7).cuda()
-    print(loss.CrossEntropyLoss(a, b).item())
+    print(loss.cross_entropy_with_weights(a, b).item())
