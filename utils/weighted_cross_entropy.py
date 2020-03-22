@@ -12,11 +12,23 @@ class CrossEntropyLoss(object):
         assert aggregate in ['sum', 'mean', None]
         self.aggregate = aggregate
 
+    def build_loss(self, mode='ce'):
+        """Choices: ['ce' or 'focal']"""
+        if mode == 'ce':
+            return self.cross_entropy_with_weights
+
+        else:
+            raise NotImplementedError
+
+
     def forward(self, input, target, weights=None):
         if self.aggregate == 'sum':
+
             return cross_entropy_with_weights(input, target, weights).sum()
+
         elif self.aggregate == 'mean':
             return cross_entropy_with_weights(input, target, weights).mean()
+
         elif self.aggregate is None:
             return cross_entropy_with_weights(input, target, weights)
 
@@ -60,6 +72,12 @@ class CrossEntropyLoss(object):
 
             # Weight the loss
             loss = loss * weights
+
         return loss
 
 
+if __name__ == "__main__":
+    loss = CrossEntropyLoss(cuda=True)
+    a = torch.rand(1, 3, 7, 7).cuda()
+    b = torch.rand(1, 7, 7).cuda()
+    print(loss.CrossEntropyLoss(a, b).item())
