@@ -4,11 +4,11 @@ import numpy as np
 from tqdm import tqdm
 from doc.deeplab_xception import Xception
 from mypath import Path
-from utils.weighted_cross_entropy import SegmentationLosses
+# from utils.weighted_cross_entropy import SegmentationLosses
 from dataloaders import make_data_loader
 from modeling.sync_batchnorm.replicate import patch_replication_callback
 from modeling.deeplab import *
-#from utils.loss import SegmentationLosses
+from utils.loss import SegmentationLosses
 from utils.calculate_weights import calculate_weigths_labels
 from utils.lr_scheduler import LR_Scheduler
 from utils.saver import Saver
