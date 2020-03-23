@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class SegmentationLosses(object):
-    def __init__(self, weight=None, size_average=True, batch_average=True, ignore_index=255, cuda=False):
+    def __init__(self, weight=1, size_average=True, batch_average=True, ignore_index=0, cuda=False):
         self.ignore_index = ignore_index
         self.weight = weight
         self.size_average = size_average
