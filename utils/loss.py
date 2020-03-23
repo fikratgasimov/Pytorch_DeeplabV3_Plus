@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class SegmentationLosses(object):
-    def __init__(self, weight=1, size_average=True, batch_average=True, ignore_index=0, cuda=False):
+    def __init__(self, weight, size_average=True, batch_average=True, ignore_index=0, cuda=False):
         self.ignore_index = ignore_index
         self.weight = weight
         self.size_average = size_average
@@ -51,7 +51,7 @@ class SegmentationLosses(object):
         return loss
 
 if __name__ == "__main__":
-    loss = SegmentationLosses(cuda=True)
+    loss = SegmentationLosses((torch.tensor(1.2).dtype),ignore_index=0,cuda=True)
     a = torch.rand(1, 3, 7, 7).cuda()
     b = torch.rand(1, 7, 7).cuda()
     print(loss.CrossEntropyLoss(a, b).item())
