@@ -163,3 +163,17 @@ class FixedResize(object):
 
         return {'image': img,
                 'label': mask}
+
+class RandomCrop(object):
+    def __init__(self, crop_size):
+        self.crop_size = (crop_size, crop_size)
+
+    def __call__(self, sample):
+        img = sample["image"]
+        gt = sample["label"]
+        i, j, h, w = transforms.RandomCrop.get_params(img,800, 512, 2200, 512, output_size=self.crop_size)
+
+        new_img = transforms.functional.crop(img, i, j, h, w)
+        new_gt = transforms.functional.crop(gt, i, j, h, w)
+        return {'image': new_img,
+                    'label': new_gt}
