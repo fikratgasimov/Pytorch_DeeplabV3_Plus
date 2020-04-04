@@ -2,6 +2,7 @@ import torch
 import random
 import numpy as np
 import cv2
+import os
 
 from PIL import Image, ImageOps, ImageFilter
 
@@ -166,31 +167,31 @@ class FixedResize(object):
                 'label': mask}
 
 class RandomCrop(object):
+
     def __init__(self, crop_size):
         self.crop_size = (crop_size, crop_size)
 
 
-
     def get_params(self, output_size):
 
-        # w, h = img.size
-        lw, rw = output_size
         w = img.shape[1]
+        h = output_size
 
-        if h > w:
-            h = self.crop_size
-            i = random.randint(0, w - lw / 4.)
-            j = random.randint(0, w - rw)
+        if w > h:
 
-            return i, j, h, lw, rw,
+            lw = random.randint(0, w / 4)
+            rw = random.randint(0, w - 1183)
+
+            return lw, rw,
+
 
     def __call__(self, sample):
 
         img = sample["image"]
         gt = sample["label"]
-        i, j, h, w = transforms.RandomCrop.get_params(img, output_size=self.crop_size)
+        lw, rw, h, w = transforms.RandomCrop.get_params(img, output_size=self.crop_size)
 
-        new_img = transforms.functional.crop(img, i, j, h, w)
-        new_gt = transforms.functional.crop(gt, i, j, h, w)
+        new_img = TF.crop(img, lw, rw, h, w)
+        new_gt = TF.crop(gt, lw, rw, h, w)
         return {'image': new_img,
                     'label': new_gt}
