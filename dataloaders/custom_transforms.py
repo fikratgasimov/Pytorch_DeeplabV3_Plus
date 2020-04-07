@@ -173,6 +173,8 @@ class RandomCrop(object):
     def __init__(self, crop_size):
         self.crop_size = (crop_size, crop_size)
 
+
+
     def transforms(self, new_img, new_gt):
         resize = transforms.Resize(size = (512, 512))
         new_img = resize(new_img)
@@ -180,13 +182,17 @@ class RandomCrop(object):
 
 
     def get_params(self, output_size):
-        w, h = img.size
-        lw, rw = output_size
-        if w > lw and h > rw:
-            return 0, 0, lw, rw
-        i = new_img[0]
-        j = random.randint(lw, i-rw-output_size)
-        return i, j, lw, rw
+
+        w = img.shape[0]
+        h = img.shape [1]
+        
+        new_h, new_w = output_size
+        if w > new_w and h > new_h:
+
+            i = self.crop_size
+            left, right = np.random.randint(0, w - (new_w + i))
+            j = np.random.randint(left, w - right - self.crop_size )
+            return i, j, left, right
 
 
 
@@ -194,9 +200,9 @@ class RandomCrop(object):
 
         img = sample["image"]
         gt = sample["label"]
-        lw, rw, h, w = transforms.RandomCrop.get_params(img, output_size=self.crop_size)
+        i, j, h, w = transforms.RandomCrop.get_params(img, output_size=self.crop_size)
 
         new_img = transforms.functional.crop(img, i, j, h, w)
         new_gt = transforms.functional.crop(gt, i, j, h, w)
         return {'image': new_img,
-                    'label': new_gt}
+                'label': new_gt}
