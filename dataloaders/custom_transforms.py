@@ -3,6 +3,7 @@ import random
 import numpy as np
 import cv2
 import os
+from torchvision import transforms
 
 from PIL import Image, ImageOps, ImageFilter
 
@@ -172,7 +173,7 @@ class RandomCrop(object):
         self.crop_size = (crop_size, crop_size)
 
     def transforms(self, new_img, new_gt):
-        resize = transforms.Resize(size = (520,520))
+        resize = transforms.Resize(size = (512, 512))
         new_img = resize(new_img)
         new_gt = resize(new_gt)
 
