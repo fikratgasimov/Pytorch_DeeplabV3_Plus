@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import os
 from torchvision import transforms
+import torchvision.transforms.functional as tf
 
 from PIL import Image, ImageOps, ImageFilter
 
@@ -195,7 +196,7 @@ class RandomCrop(object):
         gt = sample["label"]
         lw, rw, h, w = transforms.RandomCrop.get_params(img, output_size=self.crop_size)
 
-        new_img = TF.crop(img, i, j, h, w)
-        new_gt = TF.crop(gt, i, j, h, w)
+        new_img = transforms.functional.crop(img, i, j, h, w)
+        new_gt = transforms.functional.crop(gt, i, j, h, w)
         return {'image': new_img,
                     'label': new_gt}
