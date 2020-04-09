@@ -174,32 +174,21 @@ class RandomCrop(object):
         self.crop_size = (crop_size, crop_size)
 
 
-    def transforms(self, new_img, new_gt):
-        crop = transforms.RandomCrop(size = (512, 512))
-        new_img = crop(new_img)
-        new_gt = crop(new_gt)
+    def __call__(self, sample):
 
-
-    def get_params(self, output_size):
+        img = sample["image"]
+        gt = sample["label"]
 
         w = img.shape[0]
-        h = img.shape [1]
-
-        new_h, new_w = output_size
+        h = img.shape[1]
+        new_h, new_w = self.crop_size
         if w > new_w and h > new_h:
-
             i = self.crop_size
             left, right = np.random.randint(0, w - (new_w + i))
             j = np.random.randint(left, w - right - self.crop_size)
             return i, j, left, right
 
 
-
-    def __call__(self, sample):
-
-        img = sample["image"]
-        gt = sample["label"]
-        i, j, new_h, new_w = get_params(img, output_size=self.crop_size)
 
         new_img = transforms.functional.crop(img, i, j, new_h, new_w)
         new_gt = transforms.functional.crop(gt, i, j, new_h, new_w)
