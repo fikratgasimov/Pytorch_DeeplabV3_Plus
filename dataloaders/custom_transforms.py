@@ -2,9 +2,10 @@ import torch
 import random
 import numpy as np
 import cv2
+
 import os
 from torchvision import transforms
-import torchvision.transforms.functional as tf
+# import torchvision.transforms.functional as tf
 
 from PIL import Image, ImageOps, ImageFilter
 
@@ -168,29 +169,52 @@ class FixedResize(object):
         return {'image': img,
                 'label': mask}
 
+
+import random
+import numpy as np
+from PIL import Image
+from PIL import ImageOps
+# from torchvision import functional as F
+
+
+from torchvision import transforms
+
+
 class RandomCrop(object):
 
     def __init__(self, crop_size):
-        self.crop_size = (crop_size, crop_size)
-
+        self.crop_size = crop_size
 
     def __call__(self, sample):
-
         img = sample["image"]
         gt = sample["label"]
 
-        w = img.shape[0]
-        h = img.shape[1]
-        new_h, new_w = self.crop_size
+        # Define original Width and Height size
+        w, h = img.size
+        # def
+        new_h = self.crop_size
+        new_w = self.crop_size
+
+
         if w > new_w and h > new_h:
-            i = self.crop_size
-            left, right = np.random.randint(0, w - (new_w + i))
-            j = np.random.randint(left, w - right - self.crop_size)
-            return i, j, left, right
+            # initialize
+            i = h - self.crop_size
+
+            # Determination of range bw min and max left offset
+            min_left = 300
+            max_left = min_left + 100
+
+            # Determination of range bw min and max right offset
+            max_right = w - 50
+            min_right = max_right - 50
+
+            # total left and right
+            left = np.random.randint(min_left, max_left)
+            right = np.random.randint(min_right, max_right)
 
 
-
-        new_img = transforms.functional.crop(img, i, j, new_h, new_w)
-        new_gt = transforms.functional.crop(gt, i, j, new_h, new_w)
+    
+        new_img = img.crop((left, i, right, h))
+        new_gt = img.crop((left, i, right, h))
         return {'image': new_img,
                 'label': new_gt}
