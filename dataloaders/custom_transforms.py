@@ -2,6 +2,9 @@ import torch
 import random
 import numpy as np
 import cv2
+from PIL import Image
+from PIL import ImageOps
+from torchvision import transforms
 
 import os
 from torchvision import transforms
@@ -170,14 +173,6 @@ class FixedResize(object):
                 'label': mask}
 
 
-import random
-import numpy as np
-from PIL import Image
-from PIL import ImageOps
-# from torchvision import functional as F
-
-
-from torchvision import transforms
 
 
 class RandomCrop(object):
@@ -189,32 +184,39 @@ class RandomCrop(object):
         img = sample["image"]
         gt = sample["label"]
 
-        # Define original Width and Height size
         w, h = img.size
-        # def
+
         new_h = self.crop_size
         new_w = self.crop_size
 
-
         if w > new_w and h > new_h:
-            # initialize
             i = h - self.crop_size
+            print("value of i", i)
 
-            # Determination of range bw min and max left offset
-            min_left = 300
+            min_left = 0
             max_left = min_left + 100
 
-            # Determination of range bw min and max right offset
-            max_right = w - 50
-            min_right = max_right - 50
+            # for right crop
+            max_right = w - 3384
+            min_right = max_right - 0
 
-            # total left and right
-            left = np.random.randint(min_left, max_left)
-            right = np.random.randint(min_right, max_right)
+            #             left =  np.random.randint(min_left, max_left)
+            #             right =  np.random.randint(min_right, max_right)
 
+            left = 100
+            right = 100
+            j = np.random.randint(left, w - i - self.crop_size)
+            print("value of j", j)
 
-    
-        new_img = img.crop((left, i, right, h))
-        new_gt = img.crop((left, i, right, h))
+            print("J", j)
+
+            #             right = np.random.randint(0, w - (new_w + i))
+            #             j = np.random.randint(left, w - right - self.crop_size)
+
+            #         new_img = img.crop((left, i, right, h))
+            #         new_gt = img.crop((left, i, right, h))
+            new_img = transforms.functional.crop(img, i, j, new_w, new_h)
+            new_gt = transforms.functional.crop(img, i, j, new_w, new_h)
+
         return {'image': new_img,
                 'label': new_gt}
