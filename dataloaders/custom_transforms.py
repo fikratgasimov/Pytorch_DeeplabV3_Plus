@@ -216,7 +216,7 @@ class RandomCrop(object):
             #         new_img = img.crop((left, i, right, h))
             #         new_gt = img.crop((left, i, right, h))
             new_img = transforms.functional.crop(img, i, j, new_w, new_h)
-            new_gt = transforms.functional.crop(img, i, j, new_w, new_h)
+            new_gt = transforms.functional.crop(gt, i, j, new_w, new_h)
 
         return {'image': new_img,
                 'label': new_gt}
