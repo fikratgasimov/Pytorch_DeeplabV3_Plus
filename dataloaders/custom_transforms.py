@@ -205,7 +205,7 @@ class RandomCrop(object):
 
             left = 100
             right = 100
-            j = np.random.randint(left, w - i - self.crop_size)
+            j = np.random.randint(left, w - right - self.crop_size)
             print("value of j", j)
 
             print("J", j)
